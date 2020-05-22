@@ -25,7 +25,6 @@ gdm
 gedit
 ghc
 giggle
-git
 grilo-plugins
 grub
 gvfs
@@ -138,7 +137,7 @@ xorg-xwininfo
 xorg-xwud
 xterm
 yarn
-yay
 yelp
+yay
 zathura
 zathura-pdf-mupdf
