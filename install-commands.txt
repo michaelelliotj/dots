@@ -1,0 +1,8 @@
+##ARCH##
+########
+
+## Install packages from list and ignore AUR packages
+pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort pkglist.txt))
+
+## Checks system packages against list and removes any that do not match
+pacman -Rsu $(comm -23 <(pacman -Qq | sort) <(sort pkglist.txt))
