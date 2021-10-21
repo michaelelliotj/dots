@@ -1,0 +1,40 @@
+cfdisk into 3 gpt partitions
+1.) +550M, BIOS Boot Partition (mkfs.fat -F32 /dev/sda1)
+2.) +2G, Linux Swap (mkswap /dev/sda2; swapon /dev/sda2)
+3.) +[REST], Linux Filesystem (mkfs.ext3 /dev/sda3)
+--------------------------------------------------------
+
+mount /dev/sda3 /mnt
+pacstrap /mnt base linux linux-firmware
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+
+ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
+hwclock --systohc
+pacman -S vim git base-devel
+vim /etc/locale.gen 
+locale-gen
+vim /etc/hostname
+vim /etc/hosts
+---------------------
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   [hostname].localdomain  [hostname]
+----------------------------------------------
+
+passwd
+useradd [USER]
+passwd [USER]
+usermod -aG wheel,audio,video,optical,storage [USER]
+visudo
+
+pacman -S efibootmgr dosfstools -s-prober mtools grub
+grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+
+pacman -S networkmanager xorg xorg-xinit xf86-video-fbdev nitrogen picom firefox yay xmonad xmonad-contrib
+systemctl enable NetworkManager
+systemctl restart NetworkManager
+
+
+
